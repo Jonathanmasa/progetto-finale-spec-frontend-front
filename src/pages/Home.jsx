@@ -7,6 +7,7 @@ export default function Home() {
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('');
   const [loading, setLoading] = useState(true);
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     fetchData();
@@ -17,6 +18,11 @@ export default function Home() {
     try {
       const data = await getAllDestinations({ search, category });
       setDestinations(data);
+
+      // Estrai categorie uniche da tutte le destinazioni ricevute
+      const uniqueCategories = Array.from(new Set(data.map(dest => dest.category))).sort();
+      setCategories(uniqueCategories);
+
     } catch (err) {
       console.error('Errore nel caricamento destinazioni:', err);
     } finally {
@@ -41,10 +47,9 @@ export default function Home() {
           onChange={(e) => setCategory(e.target.value)}
         >
           <option value="">Tutte le categorie</option>
-          <option value="Europa">Europa</option>
-          <option value="Asia">Asia</option>
-          <option value="Africa">Africa</option>
-          <option value="America">America</option>
+          {categories.map(cat => (
+            <option key={cat} value={cat}>{cat}</option>
+          ))}
         </select>
       </div>
 
@@ -54,7 +59,7 @@ export default function Home() {
         <p>Nessuna destinazione trovata.</p>
       ) : (
         <div className="row">
-          {destinations.map((dest) => (
+          {destinations.map(dest => (
             <div className="col-md-4 mb-4" key={dest.id}>
               <DestinationCard destination={dest} />
             </div>
