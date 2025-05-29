@@ -4,10 +4,11 @@ import Detail from './pages/Detail';
 import Compare from './pages/Compare';
 import Favorites from './pages/Favorites';
 import NavBar from './components/NavBar';
+import './App.css'; 
 
 export default function App() {
   return (
-    <div className="container py-3">
+    <div>
       <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />

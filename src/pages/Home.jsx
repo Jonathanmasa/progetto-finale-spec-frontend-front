@@ -32,7 +32,7 @@ export default function Home() {
   }
 
   return (
-    <div>
+    <div className="container py-2">
       <h2>Esplora Destinazioni</h2>
 
       <div className="d-flex gap-3 my-4">

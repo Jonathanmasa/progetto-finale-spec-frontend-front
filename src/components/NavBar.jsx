@@ -2,21 +2,38 @@ import { Link, NavLink } from 'react-router-dom';
 
 export default function NavBar() {
   return (
-    <nav className="navbar navbar-expand navbar-light bg-light mb-4">
-      <div className="container">
-        <Link className="navbar-brand" to="/">Viaggi</Link>
-        <div>
-          <NavLink className="nav-link d-inline me-3" to="/" end>
-            Home
-          </NavLink>
-          <NavLink className="nav-link d-inline me-3" to="/compare">
-            Confronta
-          </NavLink>
-          <NavLink className="nav-link d-inline" to="/favorites">
-            Preferiti
-          </NavLink>
+      <nav className="container-fluid navbar navbar-expand-lg bg-light mb-4 custom-navbar">
+        <div className="container custom-navbar__container">
+          <Link className="navbar-brand custom-navbar__brand" to="/">TopTravel</Link>
+          <div className="d-flex custom-navbar__links">
+            <NavLink
+              to="/"
+              end
+              className={({ isActive }) =>
+                `nav-link custom-navbar__link me-3 ${isActive ? 'custom-navbar__link--active' : ''}`
+              }
+            >
+              Home
+            </NavLink>
+            <NavLink
+              to="/compare"
+              className={({ isActive }) =>
+                `nav-link custom-navbar__link me-3 ${isActive ? 'custom-navbar__link--active' : ''}`
+              }
+            >
+              Confronta
+            </NavLink>
+            <NavLink
+              to="/favorites"
+              className={({ isActive }) =>
+                `nav-link custom-navbar__link ${isActive ? 'custom-navbar__link--active' : ''}`
+              }
+            >
+              Preferiti
+            </NavLink>
+          </div>
         </div>
-      </div>
     </nav>
+
   );
 }

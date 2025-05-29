@@ -37,7 +37,7 @@ export default function Detail() {
   const nextId = currentIndex < allIds.length - 1 ? allIds[currentIndex + 1] : null;
 
   return (
-    <div>
+    <div className="container py-2">
       <h1>{destination.title}</h1>
       {destination.image && (
         <img
@@ -47,7 +47,7 @@ export default function Detail() {
         />
       )}
 
-      <div style={{ display: "flex", gap: "1rem", marginBottom: "1rem" }}>
+      <div  style={{ display: "flex", gap: "1rem", marginBottom: "1rem" }}>
         <button
           className="btn btn-secondary"
           onClick={() => prevId && navigate(`/destinations/${prevId}`)}
