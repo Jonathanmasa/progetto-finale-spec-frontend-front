@@ -8,9 +8,9 @@ export default function DestinationCard({ destination }) {
       <div className="card-body">
         <h5 className="card-title">{title}</h5>
         <p className="card-text text-muted">{category}</p>
-        <Link to={`/detail/${id}`} className="btn btn-primary">Dettagli</Link>
+        
+        <Link to={`/destinations/${id}`} className="btn btn-primary">Dettagli</Link>
       </div>
     </div>
   );
 }
-

@@ -1,9 +1,5 @@
 const API_URL = 'http://localhost:3001/destinations';
 
-/**
- * Restituisce la lista di destinazioni con supporto a ricerca per titolo e filtro per categoria.
- * ⚠️ Restituisce solo id, title, category, createdAt, updatedAt
- */
 export async function getAllDestinations({ search = '', category = '' } = {}) {
   const query = new URLSearchParams();
   if (search) query.append('search', search);
@@ -19,9 +15,6 @@ export async function getAllDestinations({ search = '', category = '' } = {}) {
   return await res.json();
 }
 
-/**
- * Restituisce tutti i dettagli di una destinazione dato l'id
- */
 export async function getDestinationById(id) {
   const res = await fetch(`${API_URL}/${id}`);
 
@@ -35,4 +28,3 @@ export async function getDestinationById(id) {
 
   return await res.json();
 }
-

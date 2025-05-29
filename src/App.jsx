@@ -11,11 +11,10 @@ export default function App() {
       <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/detail/:id" element={<Detail />} />
+        <Route path="/destinations/:id" element={<Detail />} />
         <Route path="/compare" element={<Compare />} />
         <Route path="/favorites" element={<Favorites />} />
       </Routes>
     </div>
   );
 }
-

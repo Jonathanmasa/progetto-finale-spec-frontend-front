@@ -11,6 +11,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchData();
+    
   }, [search, category]);
 
   async function fetchData() {
@@ -19,7 +20,7 @@ export default function Home() {
       const data = await getAllDestinations({ search, category });
       setDestinations(data);
 
-      // Estrai categorie uniche da tutte le destinazioni ricevute
+      
       const uniqueCategories = Array.from(new Set(data.map(dest => dest.category))).sort();
       setCategories(uniqueCategories);
 
@@ -69,4 +70,3 @@ export default function Home() {
     </div>
   );
 }
-
