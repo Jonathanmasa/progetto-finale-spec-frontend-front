@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getDestinationById, getAllDestinations } from "../api/destinations";
 
+
 export default function Detail() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -11,7 +12,6 @@ export default function Detail() {
   const [allIds, setAllIds] = useState([]);
 
   useEffect(() => {
-    // Carica tutti gli id delle destinazioni per navigazione avanti/indietro
     getAllDestinations().then(data => {
       setAllIds(data.map(dest => dest.id));
     });
@@ -28,54 +28,126 @@ export default function Detail() {
       .finally(() => setLoading(false));
   }, [id]);
 
-  if (loading) return <p>Caricamento...</p>;
-  if (error) return <p style={{ color: "red" }}>{error}</p>;
-  if (!destination) return <p>Nessuna destinazione trovata.</p>;
+  if (loading)
+    return (
+      <div className="d-flex justify-content-center my-5">
+        <div
+          className="spinner-border text-primary"
+          role="status"
+          aria-hidden="true"
+        ></div>
+        <span className="ms-2 align-self-center">Caricamento...</span>
+      </div>
+    );
+
+  if (error)
+    return (
+      <div className="alert alert-danger my-4" role="alert">
+        {error}
+      </div>
+    );
+
+  if (!destination)
+    return (
+      <div className="alert alert-warning my-4" role="alert">
+        Nessuna destinazione trovata.
+      </div>
+    );
 
   const currentIndex = allIds.findIndex(did => String(did) === String(id));
   const prevId = currentIndex > 0 ? allIds[currentIndex - 1] : null;
   const nextId = currentIndex < allIds.length - 1 ? allIds[currentIndex + 1] : null;
 
   return (
-    <div className="container py-2">
-      <h1>{destination.title}</h1>
+    <div className="container py-4">
+      <h1 className="mb-4 text-primary fw-bold">{destination.title}</h1>
+
       {destination.image && (
-        <img
-          src={`http://localhost:3001/images/${destination.image}`}
-          alt={destination.title}
-          style={{ maxWidth: "400px", width: "100%", marginBottom: "1rem", borderRadius: "8px" }}
-        />
+        <div className="detail-image-wrapper mb-4">
+          <img
+            src={`http://localhost:3001/images/${destination.image}`}
+            alt={destination.title}
+            className="img-fluid rounded"
+          />
+          <div className="detail-image-overlay">
+            Scopri questa destinazione!
+          </div>
+        </div>
       )}
 
-      <div  style={{ display: "flex", gap: "1rem", marginBottom: "1rem" }}>
+      <div className="d-flex gap-3 mb-4 justify-content-center">
         <button
-          className="btn btn-secondary"
+          className="btn btn-outline-primary"
           onClick={() => prevId && navigate(`/destinations/${prevId}`)}
           disabled={!prevId}
         >
-          Indietro
+          &laquo; Indietro
         </button>
         <button
-          className="btn btn-secondary"
+          className="btn btn-outline-primary"
           onClick={() => nextId && navigate(`/destinations/${nextId}`)}
           disabled={!nextId}
         >
-          Avanti
+          Avanti &raquo;
         </button>
       </div>
 
-      <p><strong>Categoria:</strong> {destination.category}</p>
-      <p><strong>Paese:</strong> {destination.country}</p>
-      <p><strong>Costo medio:</strong> {destination.averageCost} €</p>
-      <p><strong>Miglior stagione:</strong> {destination.bestSeason}</p>
-      <p><strong>Clima:</strong> {destination.climate}</p>
-      <p><strong>Ore di volo:</strong> {destination.flightHours}</p>
-      <p><strong>Attrazioni:</strong></p>
-      <ul>
-        {destination.attractions && destination.attractions.map((attr, i) => (
-          <li key={i}>{attr}</li>
-        ))}
-      </ul>
+      <div className="row row-cols-1 row-cols-md-2 g-4">
+        <div className="col">
+          <ul className="list-group shadow-sm">
+            <li className="list-group-item d-flex justify-content-between align-items-center">
+              <strong>Categoria:</strong>
+              <span className="badge bg-primary rounded-pill">
+                {destination.category}
+              </span>
+            </li>
+            <li className="list-group-item d-flex justify-content-between align-items-center">
+              <strong>Paese:</strong>
+              <span className="badge bg-success rounded-pill">
+                {destination.country}
+              </span>
+            </li>
+            <li className="list-group-item d-flex justify-content-between align-items-center">
+              <strong>Costo medio:</strong>
+              <span className="badge bg-warning text-dark rounded-pill">
+                {destination.averageCost} €
+              </span>
+            </li>
+            <li className="list-group-item d-flex justify-content-between align-items-center">
+              <strong>Miglior stagione:</strong>
+              <span className="badge bg-info text-dark rounded-pill">
+                {destination.bestSeason}
+              </span>
+            </li>
+          </ul>
+        </div>
+
+        <div className="col">
+          <ul className="list-group shadow-sm">
+            <li className="list-group-item d-flex justify-content-between align-items-center">
+              <strong>Clima:</strong>
+              <span className="badge bg-secondary rounded-pill">
+                {destination.climate}
+              </span>
+            </li>
+            <li className="list-group-item d-flex justify-content-between align-items-center">
+              <strong>Ore di volo:</strong>
+              <span className="badge bg-danger rounded-pill">
+                {destination.flightHours}
+              </span>
+            </li>
+            <li className="list-group-item">
+              <strong>Attrazioni:</strong>
+              <ul className="mt-2 mb-0 ps-3">
+                {destination.attractions &&
+                  destination.attractions.map((attr, i) => (
+                    <li key={i}>{attr}</li>
+                  ))}
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   );
 }

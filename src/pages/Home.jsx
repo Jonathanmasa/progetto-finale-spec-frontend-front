@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { getAllDestinations } from '../api/destinations';
 import DestinationCard from '../components/DestinationCard';
 
+
 export default function Home() {
   const [destinations, setDestinations] = useState([]);
   const [search, setSearch] = useState('');
@@ -9,10 +10,17 @@ export default function Home() {
   const [sort, setSort] = useState('');
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
+  const [compareCount, setCompareCount] = useState(0);
 
   useEffect(() => {
     fetchData();
+    updateCompareCount();
   }, [search, category]);
+
+  function updateCompareCount() {
+    const compare = JSON.parse(localStorage.getItem('compare') || '[]');
+    setCompareCount(compare.length);
+  }
 
   async function fetchData() {
     setLoading(true);
@@ -29,57 +37,67 @@ export default function Home() {
     }
   }
 
-  function getSortedDestinations() {
-    const sorted = [...destinations];
+  function handleAddToCompare(id) {
+    let current = JSON.parse(localStorage.getItem('compare') || '[]');
 
-    switch (sort) {
-      case 'title-asc':
-        sorted.sort((a, b) => a.title.localeCompare(b.title));
-        break;
-      case 'title-desc':
-        sorted.sort((a, b) => b.title.localeCompare(a.title));
-        break;
-      case 'category-asc':
-        sorted.sort((a, b) => a.category.localeCompare(b.category));
-        break;
-      case 'category-desc':
-        sorted.sort((a, b) => b.category.localeCompare(a.category));
-        break;
-      default:
-        break;
+    if (current.includes(id)) {
+      current = current.filter(i => i !== id);
+    } else {
+      if (current.length >= 2) {
+        alert("Puoi confrontare solo 2 destinazioni per volta");
+        return;
+      }
+      current.push(id);
     }
 
+    localStorage.setItem('compare', JSON.stringify(current));
+    setCompareCount(current.length);
+  }
+
+  function getSortedDestinations() {
+    const sorted = [...destinations];
+    switch (sort) {
+      case 'title-asc': sorted.sort((a, b) => a.title.localeCompare(b.title)); break;
+      case 'title-desc': sorted.sort((a, b) => b.title.localeCompare(a.title)); break;
+      case 'category-asc': sorted.sort((a, b) => a.category.localeCompare(b.category)); break;
+      case 'category-desc': sorted.sort((a, b) => b.category.localeCompare(a.category)); break;
+      default: break;
+    }
     return sorted;
   }
 
   const sortedDestinations = getSortedDestinations();
 
   return (
-    <div className="container py-2">
-      <h2>Esplora Destinazioni</h2>
+    <div className="container home-container_py-2">
+      <h2 className="home-title">Esplora Destinazioni</h2>
 
-      <div className="d-flex gap-3 my-4 flex-wrap">
+      <a href="/compare" className="home-compare-btn btn btn-warning">
+        Vai al confronto ({compareCount})
+      </a>
+
+      <div className="home-filters">
         <input
-          className="form-control"
+          type="text"
+          className="form-control home-input"
           placeholder="Cerca per titolo..."
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={e => setSearch(e.target.value)}
         />
         <select
-          className="form-select"
+          className="form-select home-select"
           value={category}
-          onChange={(e) => setCategory(e.target.value)}
+          onChange={e => setCategory(e.target.value)}
         >
           <option value="">Tutte le categorie</option>
           {categories.map(cat => (
             <option key={cat} value={cat}>{cat}</option>
           ))}
         </select>
-
         <select
-          className="form-select"
+          className="form-select home-select"
           value={sort}
-          onChange={(e) => setSort(e.target.value)}
+          onChange={e => setSort(e.target.value)}
         >
           <option value="">Ordina per...</option>
           <option value="title-asc">Titolo (A-Z)</option>
@@ -90,18 +108,33 @@ export default function Home() {
       </div>
 
       {loading ? (
-        <p>Caricamento in corso...</p>
+        <p className="home-loading">Caricamento in corso...</p>
       ) : sortedDestinations.length === 0 ? (
-        <p>Nessuna destinazione trovata.</p>
+        <p className="home-no-results">Nessuna destinazione trovata.</p>
       ) : (
-        <div className="row">
+        <div className="home-row">
           {sortedDestinations.map(dest => (
-            <div className="col-md-4 mb-4" key={dest.id}>
-              <DestinationCard destination={dest} />
-            </div>
+            <DestinationCardWrapper
+              key={dest.id}
+              destination={dest}
+              onCompare={handleAddToCompare}
+            />
           ))}
         </div>
       )}
+    </div>
+  );
+}
+
+function DestinationCardWrapper({ destination, onCompare }) {
+  const compareSelected = JSON.parse(localStorage.getItem('compare') || '[]').includes(destination.id);
+  return (
+    <div className="destination-card-root position-relative">
+      <DestinationCard
+        destination={destination}
+        onCompare={onCompare}
+        compareSelected={compareSelected}
+      />
     </div>
   );
 }
