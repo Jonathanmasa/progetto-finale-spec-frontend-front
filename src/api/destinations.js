@@ -1,9 +1,12 @@
 const API_URL = 'http://localhost:3001/destinations';
 
-export async function getAllDestinations({ search = '', category = '' } = {}) {
+export async function getAllDestinations({ search = '', category = '', minPrice = '', maxPrice = '' } = {}) {
   const query = new URLSearchParams();
+
   if (search) query.append('search', search);
   if (category) query.append('category', category);
+  if (minPrice !== '') query.append('minPrice', minPrice);
+  if (maxPrice !== '') query.append('maxPrice', maxPrice);
 
   const url = `${API_URL}?${query.toString()}`;
   const res = await fetch(url);
@@ -28,3 +31,4 @@ export async function getDestinationById(id) {
 
   return await res.json();
 }
+
