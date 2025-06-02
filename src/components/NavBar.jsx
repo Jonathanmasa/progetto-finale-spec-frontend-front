@@ -4,7 +4,7 @@ export default function NavBar() {
   return (
       <nav className="container-fluid navbar navbar-expand-lg bg-light mb-4 custom-navbar">
         <div className="container custom-navbar__container">
-          <Link className="navbar-brand custom-navbar__brand" to="/">TopTravel</Link>
+          <Link className="navbar-brand custom-navbar__brand" to="/"><img className='logo' src="/public/TopTravel.png" alt="" /></Link>
           <div className="d-flex custom-navbar__links">
             <NavLink
               to="/"

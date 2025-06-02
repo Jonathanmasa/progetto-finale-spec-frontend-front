@@ -1,3 +1,15 @@
+/* logo */
+.logo {
+  width: 90px;
+  height: 90px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  border-radius: 50%;
+  
+}
+
 /* Contenitore navbar con sfondo sfumato e ombra più marcata */
 .custom-navbar {
   background: linear-gradient(90deg, #3359a0, #2a5298);
@@ -27,8 +39,8 @@
   cursor: pointer;
 }
 .custom-navbar__brand:hover {
-  color: #f0a500 !important;
-  text-shadow: 0 0 8px #f0a500;
+  color: #00a521 !important;
+  text-shadow: 0 0 8px #00a521;
 }
 
 /* Link container, flessibile e con gap */
@@ -52,15 +64,15 @@
 
 /* Hover smooth: leggero spostamento e colore più acceso */
 .custom-navbar__link:hover {
-  color: #f0a500;
+  color: #00a521;
   transform: translateY(-3px);
 }
 
 /* Stato attivo: evidenziato da colore e bordo animato */
 .custom-navbar__link--active {
-  color: #f0a500;
+  color: #00a521;
   font-weight: 700;
-  border-bottom: 3px solid #f0a500;
+  border-bottom: 3px solid #00a521;
   transform: translateY(-3px);
 }
 
@@ -72,7 +84,7 @@
   bottom: -4px;
   width: 0%;
   height: 3px;
-  background-color: #f0a500;
+  background-color: #00a521;
   transition: width 0.3s ease;
   border-radius: 2px;
 }
@@ -193,9 +205,9 @@
 }
 
 .compare-warning {
-  color: #ffc107; 
+  color: #00a521; 
   background-color: #fff4d6;
-  border: 2px solid #ffc107;
+  border: 2px solid #00a521;
 }
 
 .detail-image-wrapper {
@@ -267,13 +279,13 @@
 
 .home-compare-btn {
   display: inline-block;
-  background: linear-gradient(45deg, #f0a500, #ffbb33);
+  background: linear-gradient(45deg, #00a521, #00a521);
   border: none;
   color: #fff !important;
   font-weight: 700;
   padding: 0.65rem 1.3rem;
   border-radius: 50px;
-  box-shadow: 0 8px 15px rgba(240, 165, 0, 0.4);
+  box-shadow: 0 8px 15px #00a521(240, 165, 0, 0.4);
   transition: all 0.3s ease;
   cursor: pointer;
   user-select: none;
@@ -285,8 +297,8 @@
 
 .home-compare-btn:hover,
 .home-compare-btn:focus {
-  background: linear-gradient(45deg, #ffbb33, #f0a500);
-  box-shadow: 0 12px 25px rgba(255, 187, 51, 0.6);
+  background: linear-gradient(45deg, #00a521, #00a521);
+  box-shadow: 0 12px 25px #00a521(255, 187, 51, 0.6);
   transform: scale(1.05);
   outline: none;
 }
@@ -313,8 +325,8 @@
 
 .home-input:focus,
 .home-select:focus {
-  border-color: #f0a500 !important;
-  box-shadow: 0 0 8px rgba(240, 165, 0, 0.7);
+  border-color: #00a521 !important;
+  box-shadow: 0 0 8px #00a521(240, 165, 0, 0.7);
   outline: none;
   background: #fff;
 }
@@ -356,13 +368,13 @@
 
 .home-compare-btn {
   display: inline-block;
-  background: linear-gradient(45deg, #f0a500, #ffbb33);
+  background: linear-gradient(45deg, #00a521, #00a521);
   border: none;
   color: #fff !important;
   font-weight: 700;
   padding: 0.65rem 1.3rem;
   border-radius: 50px;
-  box-shadow: 0 8px 15px rgba(240, 165, 0, 0.4);
+  box-shadow: 0 8px 15px #00a521(240, 165, 0, 0.4);
   transition: all 0.3s ease;
   cursor: pointer;
   user-select: none;
@@ -374,8 +386,8 @@
 
 .home-compare-btn:hover,
 .home-compare-btn:focus {
-  background: linear-gradient(45deg, #ffbb33, #f0a500);
-  box-shadow: 0 12px 25px rgba(255, 187, 51, 0.6);
+  background: linear-gradient(45deg, #48cf63, #00a521);
+  box-shadow: 0 12px 25px #00a521(255, 187, 51, 0.6);
   transform: scale(1.05);
   outline: none;
 }
@@ -402,8 +414,8 @@
 
 .home-input:focus,
 .home-select:focus {
-  border-color: #f0a500 !important;
-  box-shadow: 0 0 8px rgba(240, 165, 0, 0.7);
+  border-color: #00a521 !important;
+  box-shadow: 0 0 8px rgba(0, 165, 25, 0.7);
   outline: none;
   background: #fff;
 }
@@ -484,13 +496,13 @@
 
 /* Bottone con margine-top minimo per compattezza */
 .destination-card-compare-btn {
-  background-color: #f0a500;
+  background-color: #00a521;
   border: none;
   padding: 0.5rem 1.1rem;
   font-weight: 700;
   color: white;
   border-radius: 50px;
-  box-shadow: 0 5px 15px rgba(240, 165, 0, 0.4);
+  box-shadow: 0 5px 15px #00a521(240, 165, 0, 0.4);
   transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
   cursor: pointer;
   user-select: none;
@@ -500,27 +512,27 @@
 }
 
 .destination-card-compare-btn:hover {
-  background-color: #ffbb33;
-  box-shadow: 0 8px 22px rgba(255, 187, 51, 0.6);
+  background-color: #00a521;
+  box-shadow: 0 8px 22px #00a521(255, 187, 51, 0.6);
   transform: scale(1.05);
 }
 .selected-badge {
   position: absolute;
   top: 10px;
   left: 10px;
-  background: #f0a500cc;
+  background: #00a521;
   color: #3a2e00;
   font-weight: 700;
   padding: 4px 12px;
   border-radius: 15px;
   font-size: 0.85rem;
   text-transform: uppercase;
-  box-shadow: 0 0 6px #f0a500aa;
+  box-shadow: 0 0 6px #00a521;
   animation: pulseGlow 2.5s infinite ease-in-out;
   user-select: none;
   pointer-events: none;
   letter-spacing: 1px;
-  filter: drop-shadow(0 0 2px #d38c00);
+  filter: drop-shadow(0 0 2px #00a521);
   z-index: 10; 
 }
 
