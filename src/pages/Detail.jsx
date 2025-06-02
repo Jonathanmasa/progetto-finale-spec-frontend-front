@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getDestinationById, getAllDestinations } from "../api/destinations";
 
-
 export default function Detail() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -10,12 +9,19 @@ export default function Detail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [allIds, setAllIds] = useState([]);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
     getAllDestinations().then(data => {
       setAllIds(data.map(dest => dest.id));
     });
   }, []);
+
+  // Controlla se la destinazione è nei preferiti
+  useEffect(() => {
+    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+    setIsFavorite(favorites.includes(Number(id))); // Assumiamo id numerico
+  }, [id]);
 
   useEffect(() => {
     setLoading(true);
@@ -27,6 +33,20 @@ export default function Detail() {
       .catch(err => setError(err.message))
       .finally(() => setLoading(false));
   }, [id]);
+
+  function toggleFavorite() {
+    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+    let updatedFavorites;
+
+    if (favorites.includes(Number(id))) {
+      updatedFavorites = favorites.filter(favId => favId !== Number(id));
+      setIsFavorite(false);
+    } else {
+      updatedFavorites = [...favorites, Number(id)];
+      setIsFavorite(true);
+    }
+    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+  }
 
   if (loading)
     return (
@@ -60,7 +80,24 @@ export default function Detail() {
 
   return (
     <div className="container py-4">
-      <h1 className="mb-4 text-primary fw-bold">{destination.title}</h1>
+      <h1 className="mb-4 text-primary fw-bold">
+        {destination.title}{" "}
+        <button
+          onClick={toggleFavorite}
+          style={{
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            fontSize: "1.5rem",
+            color: isFavorite ? "red" : "grey",
+            verticalAlign: "middle",
+          }}
+          aria-label={isFavorite ? "Rimuovi dai preferiti" : "Aggiungi ai preferiti"}
+          title={isFavorite ? "Rimuovi dai preferiti" : "Aggiungi ai preferiti"}
+        >
+          {isFavorite ? "♥" : "♡"}
+        </button>
+      </h1>
 
       {destination.image && (
         <div className="detail-image-wrapper mb-4">
@@ -69,9 +106,7 @@ export default function Detail() {
             alt={destination.title}
             className="img-fluid rounded"
           />
-          <div className="detail-image-overlay">
-            Scopri questa destinazione!
-          </div>
+          <div className="detail-image-overlay">Scopri questa destinazione!</div>
         </div>
       )}
 
@@ -126,23 +161,16 @@ export default function Detail() {
           <ul className="list-group shadow-sm">
             <li className="list-group-item d-flex justify-content-between align-items-center">
               <strong>Clima:</strong>
-              <span className="badge bg-secondary rounded-pill">
-                {destination.climate}
-              </span>
+              <span className="badge bg-secondary rounded-pill">{destination.climate}</span>
             </li>
             <li className="list-group-item d-flex justify-content-between align-items-center">
               <strong>Ore di volo:</strong>
-              <span className="badge bg-danger rounded-pill">
-                {destination.flightHours}
-              </span>
+              <span className="badge bg-danger rounded-pill">{destination.flightHours}</span>
             </li>
             <li className="list-group-item">
               <strong>Attrazioni:</strong>
               <ul className="mt-2 mb-0 ps-3">
-                {destination.attractions &&
-                  destination.attractions.map((attr, i) => (
-                    <li key={i}>{attr}</li>
-                  ))}
+                {destination.attractions && destination.attractions.map((attr, i) => <li key={i}>{attr}</li>)}
               </ul>
             </li>
           </ul>

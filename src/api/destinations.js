@@ -29,6 +29,6 @@ export async function getDestinationById(id) {
     throw new Error(`Errore nel recupero della destinazione (status: ${res.status})`);
   }
 
-  return await res.json();
+ return await res.json();
 }
-
+ 

@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { getAllDestinations } from '../api/destinations';
 import DestinationCard from '../components/DestinationCard';
 
-
 export default function Home() {
   const [destinations, setDestinations] = useState([]);
   const [search, setSearch] = useState('');
@@ -11,6 +10,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
   const [compareCount, setCompareCount] = useState(0);
+  const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -63,6 +63,12 @@ export default function Home() {
       case 'category-desc': sorted.sort((a, b) => b.category.localeCompare(a.category)); break;
       default: break;
     }
+
+    if (showFavoritesOnly) {
+      const favIds = JSON.parse(localStorage.getItem('favorites') || '[]');
+      return sorted.filter(dest => favIds.includes(dest.id));
+    }
+
     return sorted;
   }
 
@@ -76,7 +82,7 @@ export default function Home() {
         Vai al confronto ({compareCount})
       </a>
 
-      <div className="home-filters">
+      <div className="home-filters d-flex flex-wrap gap-2 align-items-center my-3">
         <input
           type="text"
           className="form-control home-input"
@@ -105,6 +111,15 @@ export default function Home() {
           <option value="category-asc">Categoria (A-Z)</option>
           <option value="category-desc">Categoria (Z-A)</option>
         </select>
+        <label className="form-check-label d-flex align-items-center">
+          <input
+            type="checkbox"
+            className="form-check-input me-1"
+            checked={showFavoritesOnly}
+            onChange={() => setShowFavoritesOnly(prev => !prev)}
+          />
+          Solo preferiti
+        </label>
       </div>
 
       {loading ? (
