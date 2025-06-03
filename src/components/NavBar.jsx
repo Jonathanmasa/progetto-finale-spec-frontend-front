@@ -1,19 +1,23 @@
+// Importo gli hook di stato da React e i componenti di routing di React Router
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 
 export default function NavBar() {
+  // Uso uno stato booleano per gestire la visibilità del menu su dispositivi mobili
   const [collapsed, setCollapsed] = useState(true);
 
+  // Funzione per invertire lo stato del menu (aperto/chiuso)
   const toggleNavbar = () => setCollapsed(!collapsed);
 
   return (
     <nav className="navbar navbar-expand-lg bg-light mb-4 custom-navbar">
       <div className="container custom-navbar__container">
+        {/* Logo cliccabile che porta alla home */}
         <Link className="navbar-brand custom-navbar__brand" to="/">
           <img className="logo" src="/TopTravel.png" alt="TopTravel" />
         </Link>
 
-        {/* Burger visibile solo sotto lg */}
+        {/* Bottone hamburger visibile solo su schermi piccoli */}
         <button
           className="navbar-toggler d-lg-none"
           type="button"
@@ -25,13 +29,14 @@ export default function NavBar() {
           <span className="navbar-toggler-icon" />
         </button>
 
-        {/* Qui sotto: collapse solo sotto lg, su lg+ nav-link sempre visibili e inline */}
+        {/* Menu navigazione, collassabile su mobile, visibile fisso su desktop */}
         <div
           className={`collapse navbar-collapse custom-navbar__links ${
             collapsed ? "" : "show"
           } d-lg-flex justify-content-lg-end`}
           id="navbarSupportedContent"
         >
+          {/* Link alla homepage - si evidenzia quando attivo */}
           <NavLink
             to="/"
             end
@@ -40,10 +45,12 @@ export default function NavBar() {
                 isActive ? "custom-navbar__link--active" : ""
               }`
             }
-            onClick={() => setCollapsed(true)}
+            onClick={() => setCollapsed(true)} // Chiudo il menu dopo il click
           >
             Home
           </NavLink>
+
+          {/* Link alla pagina di confronto */}
           <NavLink
             to="/compare"
             className={({ isActive }) =>
@@ -55,6 +62,8 @@ export default function NavBar() {
           >
             Confronta
           </NavLink>
+
+          {/* Link alla pagina dei preferiti */}
           <NavLink
             to="/favorites"
             className={({ isActive }) =>
