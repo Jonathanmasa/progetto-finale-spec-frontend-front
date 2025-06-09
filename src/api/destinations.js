@@ -2,15 +2,14 @@
 const API_URL = 'http://localhost:3001/destinations';
 
 // Funzione asincrona per recuperare tutte le destinazioni, con possibilità di filtrare
-export async function getAllDestinations({ search = '', category = '', minPrice = '', maxPrice = '' } = {}) {
+export async function getAllDestinations({ search = '', category = '' } = {}) {
   // Creo un oggetto URLSearchParams per costruire dinamicamente la query string
   const query = new URLSearchParams();
 
   // Se ci sono filtri attivi, li aggiungo alla query
   if (search) query.append('search', search);
   if (category) query.append('category', category);
-  if (minPrice !== '') query.append('minPrice', minPrice);
-  if (maxPrice !== '') query.append('maxPrice', maxPrice);
+
 
   // Costruisco l'URL finale con tutti i parametri
   const url = `${API_URL}?${query.toString()}`;

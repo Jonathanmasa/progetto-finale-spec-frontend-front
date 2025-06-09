@@ -8,9 +8,6 @@ export default function Favorities() {
   // Stato per salvare le destinazioni preferite
   const [favorites, setFavorites] = useState([]);
 
-  // Stato per tutte le destinazioni, che al momento non viene usato ma può tornare utile
-  const [destinations, setDestinations] = useState([]);
-
   // Alla prima renderizzazione, recupero i dati dal localStorage e dal backend
   useEffect(() => {
     async function fetchData() {
@@ -18,7 +15,7 @@ export default function Favorities() {
       const favIds = JSON.parse(localStorage.getItem('favorites') || '[]'); // Prendo gli ID preferiti dal localStorage
       const favDestinations = all.filter(dest => favIds.includes(dest.id)); // Filtro solo quelle corrispondenti
       setFavorites(favDestinations);
-      setDestinations(all); // Non lo uso qui, ma lo tengo se servisse in futuro per confronti o debug
+
     }
     fetchData();
   }, []);
